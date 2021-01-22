@@ -1,0 +1,9 @@
+name: gmp
+channels:
+  - conda-forge
+  
+dependencies:
+  - numpy
+  - matplotlib
+  - pandas
+  - scipy
