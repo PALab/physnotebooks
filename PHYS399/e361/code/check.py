@@ -1,0 +1,70 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+L = 10e-3    # H
+C = 2.8e-9   # F
+Rs = 500     # ohm
+
+R1 = 82      # ohm
+
+omega0 = 1/np.sqrt(L*C)
+f0 = omega0/(2*np.pi)
+
+print(f'Resonance frequency: {f0:.3g} Hz')
+
+f = np.logspace(start=3, stop=6, base=10, num=10001, endpoint=True)
+omega = 2.0*np.pi*f
+
+zs = Rs*(1+1.0j*(omega*L/Rs - 1/(omega*Rs*C)))
+TD = R1/(R1+zs)
+
+fig, (ax1, ax2, ax3) = plt.subplots(num=1, nrows=3, clear=True)
+ax1.semilogx(f, np.abs(TD))
+ax2.semilogx(f, 20*np.log10(np.abs(TD)))
+ax3.semilogx(f, np.angle(TD)*180/np.pi)
+
+TDmax = np.max(np.abs(TD))
+ax1.axhline(TDmax/np.sqrt(2), c='r')
+
+Qs = omega0*L/Rs
+QD = omega0*L/(R1+Rs)
+print(f'Qs: {Qs:.5g}, QD: {QD:.5g}')
+print(Qs*Rs/R1*TDmax)
+
+############################################
+
+L = 10e-3    # H
+C = 22e-9   # F
+Rp = 1000     # ohm
+
+R2 = 300      # ohm
+
+omega0 = 1/np.sqrt(L*C)
+f0 = omega0/(2*np.pi)
+
+print(f'Resonance frequency: {f0:.3g} Hz')
+
+f = np.logspace(start=3, stop=6, base=10, num=10001, endpoint=True)
+omega = 2.0*np.pi*f
+
+zp = Rp/(1+1.0j*Rp*(omega*C - 1/(omega*L)))
+TC = R2/(R2+zp)
+
+fig, (ax1, ax2, ax3) = plt.subplots(num=2, nrows=3, clear=True)
+ax1.semilogx(f, np.abs(TC))
+ax2.semilogx(f, 20*np.log10(np.abs(TC)))
+ax3.semilogx(f, np.angle(TC)*180/np.pi)
+plt.show()
+TCmin = np.min(np.abs(TC))
+ax2.axhline(20*np.log10(TCmin)+3, c='r')
+
+Qp = Rp/(omega0*L)
+QC = Qp*np.sqrt(1-2*TCmin**2)
+print(f'Qp: {Qp:.5g}, QC: {QC:.5g}')
+# print(Qs*Rs/R1*TDmax)
+
+# X = omega/omega0 - omega0/omega
+# TCbis = R2/(R2+Rp)*(1+1.0j*Qp*X)/(1+1.0j*R2*Qp/(R2+Rp)*X)
+# ax1.semilogx(f, np.abs(TCbis))
+# ax2.semilogx(f, 20*np.log10(np.abs(TCbis)))
+# ax3.semilogx(f, np.angle(TCbis)*180/np.pi)
