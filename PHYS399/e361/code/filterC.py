@@ -4,7 +4,16 @@ import pandas as pd
 
 filename = './filterC.txt'
 df = pd.read_csv(filename,skiprows=3,names=["f","T","phi"], sep='\s+')
-plt.plot(df['f'],df['T'])
+print(df)
+
+#linear scale:
+absT = 10**(df['T']/20)
+
+#plt.semilogx(df['f'],absT,'o')
+plt.plot(df['f'],absT,'o')
+plt.show()
+
+plt.semilogx(df['f'], absT**2,'o')
 plt.show()
 
 C = 22e-9   # F
@@ -25,12 +34,13 @@ def T(Rs,L,C,omega):
     zs = Rs +1j*omega*L + 1/(1j*omega*C)
     return R/(R+zs)
 
+
 # How big is Rs? Let's compare a few values to the real data:
 Rss = [10, 100, 1000]
 # calling the transfer function, for particular input parameters:
 fig, (ax1, ax2) = plt.subplots(num=1, nrows=2, clear=True)
-ax1.semilogx(df['f'], df['T'],label='data')
-ax2.semilogx(df['f'], df['phi'],label='data')
+ax1.semilogx(df['f'], df['T'],label='data',marker='o')
+ax2.semilogx(df['f'], df['phi'],label='data',marker='o')
 ax2.axvline(f0,color='r',linestyle='--',label='$f_0$')
 ax1.axvline(f0,color='r',linestyle='--',label='$f_0$')
 for Rs in Rss:
