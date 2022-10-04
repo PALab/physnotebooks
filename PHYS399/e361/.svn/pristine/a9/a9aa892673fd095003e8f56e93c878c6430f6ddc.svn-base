@@ -1,0 +1,260 @@
+
+\documentclass{article}
+%\usepackage{graphicx}
+\usepackage{epsfig}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+\def\labexe{Expt361}
+
+\def\expttitle{RC and LC filters (Elvis Edition)}
+\def\exptnumber{361}
+
+\newcommand{\IsDocumentReady}{True}
+\newcommand{\IsExperiment}{True}
+
+\newcommand{\expcolor}{B} % R,G,B.
+\newcommand{\ELF}{4}
+
+\usepackage{minted}
+\usepackage{399}
+\usepackage[a4paper, total={6.5in, 9.5in}]{geometry}
+
+\begin{document}
+
+\title{ }
+\author{ }
+\maketitle
+
+
+
+\section*{Aim}
+To investigate the properties of passive RC and LC filters, and to experimentally verify these properties.
+
+\section*{Reference}
+
+The best reference book for this lab is the stage 2 Physics 240 text: "Linear steady state network theory" by G.E.J. Bold and J. B. Earnshaw. For more a detailed analysis of the Bode and Nyquist plots of passive circuits try "Network analysis and synthesis" by Franklin Kuo, or any of the many other electronics texts available in the library.
+
+\section*{Introduction}
+In electronics, filters are circuits which perform signal processing functions to either remove or enhance certain frequency components. Filters can be classified as either active or passive, with active filters usually containing amplifying components in the circuit and requiring an external power source. In this experiment we shall study passive filters based on combinations of resistors, inductors and capacitors.
+
+\section*{Theory}
+\begin{figure}[ht]
+\centering
+\includegraphics[width=100mm]{images/bodenyq.png}
+\caption{(a) Nyquist plot for $\mathbf{T}_A$, with the corner frequency shown in (b). (c) Bode amplitude plot and (d) Bode phase plot for filter A.}
+\label{fig:bode}
+\end{figure}
+One feature that defines a certain type of filter is its voltage transfer function,
+\begin{equation}
+\mathbf{T}=\mathbf{V}_{out}/\mathbf{V}_{in}.
+\end{equation}%As we are dealing with AC signals in circuits containing inductors and resistors, the voltage transfer function will be a complex function containing information about both the gain and the phase difference between the input and output signals.
+For each frequency $f=\omega/(2\pi)$, $\mathbf{T}$ tells us how the filter responds to a sinusoidal AC input voltage at that frequency. The \textbf{modulus} of $\mathbf{T}$ tells us the voltage gain (i.e.\, the ratio of the amplitudes of the output and input voltages), and the \textbf{argument} tells us the phase shift (i.e.\, the angle by which the output voltage leads the input voltage).
+
+A useful method of displaying this data is the \textbf{Bode plot}, shown in Fig. \ref{fig:bode}. This contains both a plot of the circuit's gain-vs-frequency (the \textbf{Bode amplitude plot}), as well as the phase-vs-frequency (the \textbf{Bode phase plot}) between the input and output signals, with a logarithmic frequency axis.
+
+The locus of $\mathbf{T}$ in the complex plane (an Argand diagram) as the frequency is varied is called a \textbf{Nyquist plot}. The polar coordinates of points on the Nyquist plot give the gain and phase shift introduced by the filter. In order to draw the Nyquist plot, it is often more convenient to think in terms of the Cartesian coordinates of the points, which are the real and imaginary parts of the voltage transfer function. An example of a Nyquist plot is shown in Fig. \ref{fig:bode}.
+
+
+\section{National Instruments Elvis II}
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=\textwidth]{launcher.png}
+	\caption{The instrument launcher for the NI ELVIS II, containing such useful devices as the digital multimeter (DMM), an oscilloscope (Scope), a function generator (FGEN) and a Bode analyser (Bode)}
+	\label{fig:launcher}
+\end{figure}
+\noindent This experiment is designed to make use of the Elvis II platform from National Instruments. All the circuits that you will study in this lab are found on the ``361 RC/LC filter board'' provided with this lab and will be tested using the Elvis. The layout of the Elvis allows circuits to be tested without having to use solder to connect components, and also contains devices such as an oscilloscope and a function generator, all accessible via a USB connection to a PC with the appropriate software installed.
+
+To access these components, ensure that the USB plug is connected to a PC and the Elvis II is powered on using the switch on the side of the device. The LED indicator for the USB should display `READY'. You can now launch the `NI ELVISmx Instrument Launcher', shown in Fig. \ref{fig:launcher}.
+
+An overview of the ELVIS system is shown in Fig. \ref{fig:elvisii}.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=160mm]{elvisII.png}
+	\caption{The Elvis II from National Instruments.}
+	\label{fig:elvisii}
+\end{figure}
+
+In this experiment we will use the Elvis' built-in Bode plot analyzer only. This requires three connections to be made between the Elvis and the circuit board under test.
+
+(1) Connect a BNC cable with an alligator clip end between oscilloscope channel 0 (top left hand side of the Elvis) and the input of the circuit you wish to test.
+
+(2) Connect a BNC cable with an alligator clip end between oscilloscope channel 1 (top left hand side of the Elvis) and the output of the circuit you wish to test.
+
+(3) Connect two bare wires from pin 33 (FGEN, left hand plug board of ELVIS) and pin 49 (GND, left hand plug board of ELVIS) to the input of the circuit you wish to test using alligator clips.
+
+(4) Launch the Bode function analyzer program and measure Bode amplitude and phase plots over suitable frequency ranges.
+
+\noindent\textbf{Note:} Be sure to include oscilloscope plots and Bode plots in your report where appropriate. You should do this by importing your data into Python.
+
+
+
+\section{RC Filters}
+An RC filter is an electronic circuit comprised of resistors and capacitors, and driven by a voltage or current source. A useful concept when studying the RC filters presented here is the \textbf{corner frequency}, $f_0$. This is defined as the frequency at which $|\mathbf{T}|$ is equal to $1/\sqrt{2}$, corresponding to a power gain of 1/2 or a gain of -3dB. For these reasons $f_0$ is also known as the half power frequency or 3dB-frequency. The corner frequency $f_0$ for a high pass filter is shown in Fig. \ref{fig:bode}.
+
+Note: The power in decibels can be calculated from the transfer function $\mathbf{T}$ via
+
+\begin{equation}
+|\mathbf{T}|_{dB}=20\log_{10}|\mathbf{T}|
+\end{equation}
+
+
+\subsection{Filter A}
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.7\textwidth]{images/filterA.png}
+\caption{Circuit diagram of filter A (left) and experimental setup (right).}
+\label{fig:filtera}
+\end{figure}
+\noindent High pass filters are characterised by their ability to allow high frequencies to pass through the filter while suppressing low frequencies. Filter A, shown in Fig. \ref{fig:filtera}, is a simple high-pass phase-advance filter, commonly used for inter-stage coupling where DC isolation is required. The voltage transfer function of filter A is given by the voltage division theorem:
+\begin{equation}
+\mathbf{T}_A=\frac{\mathbf{V}_{out}}{\mathbf{V}_{in}}=\frac{R}{R+1/(\mathrm{j}\omega C)}=\frac{1}{1-\mathrm{j}\omega_0/\omega},
+\end{equation}
+where
+\begin{equation}
+\omega_0=\frac{1}{RC}.
+\end{equation}
+
+
+%here only simulate, calculate various corner frequencies.
+
+\begin{enumerate}
+\item [(1)] Using the laboratory's RCL meter, measure the values of the components contained on the circuit board. Calculate the corner frequency for the filter shown in Fig. \ref{fig:filtera}, using the measured capacitance and a resistance of $10k\Omega$. %22nF, 723Hz
+
+\item [(2)] Determine the resistance that would give a corner frequency of 5kHz. %1447Ohm
+For the circuit shown in Fig. \ref{fig:filtera}, use Python to plot a theoretical Bode amplitude plot (in dB) and Bode phase plot (in degrees) on the same figure, using a frequency range of 100Hz-1MHz. On a separate figure, use Python to construct a theoretical Nyquist plot from your data.
+
+\item [(3)] Connect up the circuit shown in Fig. \ref{fig:filtera}, setting the variable resistor to have the value $R$ calculated in (2). Using the Elvis in conjunction with Python, construct an experimental Bode plot and Nyquist plot for this circuit, and verify whether your circuit behaves as you would expect. You should plot both the experimental data and theoretical data on the same figure.
+
+\end{enumerate}
+
+\noindent\textbf{Question 1.} Explain why the output voltage measured across the resistor is almost zero for very low frequencies.%impedance of capacitor dominates
+
+\vspace{3mm}
+\noindent\textbf{Question 2.} What sort of output waveform ($\mathbf{V}_{out}$) would you expect to see on an oscilloscope from this filter when using a 1kHz square wave as your input waveform ($\mathbf{V}_{in}$)?
+\subsection{Filter B}
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.7\textwidth]{images/filterB.png}
+\caption{Circuit diagram of filter B (left). Construction of Nyquist plot for $\mathbf{T}_B$ from $\mathbf{T}_A$.}
+\label{fig:lowpass}
+\end{figure}
+\noindent The circuit in Fig. \ref{fig:lowpass} is a simple low-pass phase-delay filter used to remove unwanted high-frequency signals. The voltage transfer function for Filter B is given by:
+\begin{equation}
+\mathbf{T}_B =\frac{\mathbf{V}_{out}}{\mathbf{V}_{in}}=\frac{1/(j\omega C)}{1/(\mathrm{j}\omega C) + R}=\frac{1}{1+\mathrm{j}\omega/\omega_0}.
+\end{equation}
+This can also be derived from the voltage transfer function of Filter A as follows:
+\begin{equation}
+\mathbf{V}_{in}
+=\mathbf{V}_C+\mathbf{V}_R,\,\,
+\mathrm{therefore}\,\,
+\mathbf{T}_B =\frac{\mathbf{V}_C}{\mathbf{V}_{in}}
+=\frac{\mathbf{V}_{in}-\mathbf{V}_R}{\mathbf{V}_{in}}
+=1-\frac{\mathbf{V}_R}{\mathbf{V}_{in}}
+=1-\mathbf{T}_A.
+\end{equation}
+%simulate the filter, then wire it up and experimentally verify your results.
+\begin{enumerate}
+\item [(4)] Use Python to construct a theoretical Bode plot and a Nyquist plot of the circuit shown in Fig. \ref{fig:lowpass} using the values of the components calculated in (3).
+\item [(5)] As the voltage transfer function $\mathbf{T}_B$ can be derived from the voltage transfer function for filter A, use your results from (4) to construct an experimental Bode plot and a Nyquist plot, and verify that they behave as you would expect.
+
+\noindent{\textbf{Note:}} When constructing the Nyquist plot, in order to get the amplitude vector $\mathbf{T}_B$, we add $-\mathbf{T}_A$ to $\mathbf{1}$ vectorially (see Fig. \ref{fig:lowpass}). This vector addition is equivalent to addition of complex numbers.
+\end{enumerate}
+
+\section{LC filters}
+LC filters have different characteristics to those of RC filters, due to the inclusion of an inductor in the circuit. These filters are able to act as an electrical resonator, storing energy oscillating at the circuit's resonant frequency. These resonant properties can be used to select certain frequencies out of a host of frequencies, making them useful for applications such as tuning radio transmitters and receivers. Theoretical LC filters are unachievable in the real world, as the capacitor and inductor combination will always possess some resistance, and the output signal will be damped even at resonance.
+
+For LC filters, an important concept is the \textbf{resonant frequency} of the filter. This occurs at $\omega_0=1/\sqrt{LC}$, or $f_0=1/(2\pi\sqrt{LC})$, and occurs when the inductive and capacitive reactances are equal in magnitude.
+
+The \textbf{Q factor} (or quality factor) determines how damped an oscillator is, and can be applied to LC filters due to internal resistance of the inductor and capacitor combination. A circuit having a low Q factor (Q$<1/2$) is said to be overdamped, and will not oscillate. A circuit with a high Q factor (Q$>1/2$) is said to be underdamped and will oscillate with a decay of the amplitude of the signal. When Q$=1/2$ the circuit is said to be critically damped.
+\subsection{Filter C}
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.7\textwidth]{images/filterC.png}
+\caption{Circuit diagram for filter C (left) and experimental setup (right).}
+\label{fig:lc1}
+\end{figure}
+The circuit shown in Fig. \ref{fig:lc1} shows a real LC circuit, with the resistance $R_p$ representing the resistance from the inductor and capacitor in parallel. The voltage transfer function for this circuit is given by:
+\begin{equation}
+\mathbf{T}_C=\frac{\mathbf{V}_{out}}{\mathbf{V}_{in}}=\frac{R_2}{R_2+z_p},
+\end{equation}
+where
+\begin{equation}
+z_p=R_p\|\mathrm{j}\omega L\|\frac{1}{\mathrm{j}\omega C}=\frac{R_p}{1+\mathrm{j}R_p\left(\omega C - \frac{1}{\omega L}\right)}.
+\end{equation}
+It is clear that $|\mathbf{T}_C|$ is a minimum when $|z_p|$ is a maximum. This will occur at the resonant frequency, %where $\omega=\omega_0=1/\sqrt{LC}$, i.e.\ at the frequency
+$\omega_0=1/\sqrt{LC}$.
+
+We can define $Q_p$ as the Q factor of the parallel inductor-capacitor combination, which gives a measure of how damped the system is. $Q_p$ is given by
+\begin{equation}
+Q_p=\frac{R_p}{\omega_0 L}=\omega_0 R_p C.
+\end{equation}
+
+The Q factor of filter C (different from $Q_p$) can then be defined as
+\begin{equation}
+Q_C=Q_p\sqrt{1-2|\mathbf{T}_{Cmin}|^2},
+\end{equation}
+where $|\mathbf{T}_{Cmin}|$ is the minimum value of $|\mathbf{T}_C|$.
+
+\begin{enumerate}
+\item[(6)] The resistance $R_p$ of filter C (see Fig. \ref{fig:lc1}) is the parallel loss resistance of the inductor (the capacitor has negligible loss resistance).
+Set $R_2$ to have a value of $300\Omega$ and use the Elvis to obtain a Bode plot for the filter.
+
+\item[(7)] Determine the frequencies $f_{min}$ and $f_{max}$ corresponding to the greatest positive and negative phase shifts between the input and output signals. %approx 2.6kHz and 42kHz
+
+\item[(8)] Use this plot to find the value of $R_p$, and hence determine $Q_p$. Find the value of $Q_C$, and interpret it in relation to the damping of the circuit.
+
+\item[(9)] Using your knowledge of the resistances in this circuit, obtain a theoretical Bode plot for this filter with Python. Confirm that it agrees with what you have found experimentally.
+
+\item[(10)] Create a Nyquist plot containing both theoretical and experimental data, and see whether the two agree.
+\end{enumerate}
+
+
+\subsection{Filter D}
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.8\textwidth]{images/filterD.png}
+\caption{Circuit diagram for filter D (left) and experimental setup (right).}
+\label{fig:lc2}
+\end{figure}
+In the circuit of Filter D (see Fig. \ref{fig:lc2}), $R_s$ represents the power loss resistance of the inductor-capacitor series combination. The voltage transfer function of Filter D is given by:
+\begin{equation}
+\mathbf{T}_D=\frac{\mathbf{V}_{out}}{\mathbf{V}_{in}}=\frac{R_1}{R_1+z_s},
+\label{eq:D1}
+\end{equation}
+where
+\begin{equation}
+z_s=R_s\left[1+\mathrm{j}\left(\frac{\omega L}{R_s}-\frac{1}{\omega R_s C}\right)\right].
+\label{eq:D2}
+\end{equation}
+From equation \ref{eq:D1}, we can see that $\mathbf{T}_D$ is a maximum when $z_s$ is a minimum, and equation \ref{eq:D2} shows us that this occurs at the resonant frequency, when $\omega=\omega_0 =1/\sqrt{LC}$. If we define $Q_s$ to be the quality factor of the series inductor-capacitor combination, then by definition
+\begin{equation}
+Q_s =\frac{\omega_0 L}{R_s}=\frac{1}{\omega_0 R_s C}.
+\end{equation}
+The Q factor of filter D is given by:
+\begin{equation}
+Q_D=\frac{\omega_0 L}{R_1 + R_s}=\frac{1}{\omega_0(R_1+R_s)C}=Q_s|\mathbf{T}_{Dmin}|.
+\end{equation}
+
+\begin{enumerate}
+\item[(11)] Use the Elvis to obtain an experimental Bode plot for the circuit shown in Fig. \ref{fig:lc2}.
+
+\item[(12)] Find $R_s$ and hence determine the value of $Q_s$. Find the value of $Q_D$ and interpret this in relation to how damped the circuit is.
+
+\item[(13)] Use Python to construct a theoretical Bode plot and a Nyquist plot for this circuit, using your experimental values for the circuit components. Check whether these agree with the experimental plots.
+
+\end{enumerate}
+
+\bigskip
+
+
+S. Ruddell, S. Murdoch February 2013
+
+Revised \today
+
+\end{document}
+
+

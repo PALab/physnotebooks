@@ -1,0 +1,263 @@
+
+\documentclass{article}
+%\usepackage{graphicx}
+\usepackage{epsfig}
+\usepackage{amsmath}
+\usepackage{labs}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+\def\labexe{Expt361}
+
+\def\expttitle{RC and LC filters (Cleverscope Edition)}
+\def\exptnumber{361}
+\markright{Experiment \exptnumber: \expttitle}
+
+\begin{document}
+
+\title{ }
+\author{ }
+\maketitle
+
+
+
+\section*{Aim}
+To investigate the properties of passive RC and LC filters, and to experimentally verify these properties.
+
+\section*{Reference}
+
+The best reference book for this lab is the stage 2 Physics 240 text: "Linear steady state network theory" by G.E.J. Bold and J. B. Earnshaw. For more a detailed analysis of the Bode and Nyquist plots of passive circuits try "Network analysis and synthesis" by Franklin Kuo, or any of the many other electronics texts available in the library.
+
+\section*{Introduction}
+In electronics, filters are circuits which perform signal processing functions to either remove or enhance certain frequency components. Filters can be classified as either active or passive, with active filters usually containing amplifying components in the circuit and requiring an external power source. In this experiment we shall study passive filters based on combinations of resistors, inductors and capacitors.
+
+\section*{Theory}
+\begin{figure}[ht]
+\centering
+\includegraphics[width=100mm]{images/bodenyq.png}
+\caption{(a) Nyquist plot for $\mathbf{T}_A$, with the corner frequency shown in (b). (c) Bode amplitude plot and (d) Bode phase plot for filter A.}
+\label{fig:bode}
+\end{figure}
+One feature that defines a certain type of filter is its voltage transfer function,
+\begin{equation}
+\mathbf{T}=\mathbf{V}_{out}/\mathbf{V}_{in}.
+\end{equation}%As we are dealing with AC signals in circuits containing inductors and resistors, the voltage transfer function will be a complex function containing information about both the gain and the phase difference between the input and output signals.
+For each frequency $f=\omega/(2\pi)$, $\mathbf{T}$ tells us how the filter responds to a sinusoidal AC input voltage at that frequency. The \textbf{modulus} of $\mathbf{T}$ tells us the voltage gain (i.e.\, the ratio of the amplitudes of the output and input voltages), and the \textbf{argument} tells us the phase shift (i.e.\, the angle by which the output voltage leads the input voltage).
+
+A useful method of displaying this data is the \textbf{Bode plot}, shown in Fig. \ref{fig:bode}. This contains both a plot of the circuit's gain-vs-frequency (the \textbf{Bode amplitude plot}), as well as the phase-vs-frequency (the \textbf{Bode phase plot}) between the input and output signals, with a logarithmic frequency axis.
+
+The locus of $\mathbf{T}$ in the complex plane (an Argand diagram) as the frequency is varied is called a \textbf{Nyquist plot}. The polar coordinates of points on the Nyquist plot give the gain and phase shift introduced by the filter. In order to draw the Nyquist plot, it is often more convenient to think in terms of the Cartesian coordinates of the points, which are the real and imaginary parts of the voltage transfer function. An example of a Nyquist plot is shown in Fig. \ref{fig:bode}.
+
+\section{RC Filters}
+An RC filter is an electronic circuit comprised of resistors and capacitors, and driven by a voltage or current source. A useful concept when studying the RC filters presented here is the \textbf{corner frequency}, $f_0$. This is defined as the frequency at which $|\mathbf{T}|$ is equal to $1/\sqrt{2}$, corresponding to a power gain of 1/2 or a gain of -3dB. For these reasons $f_0$ is also known as the half power frequency or 3dB-frequency. The corner frequency $f_0$ for a high pass filter is shown in Fig. \ref{fig:bode}.
+
+Note: The power in decibels can be calculated from the transfer function $\mathbf{T}$ via
+
+\begin{equation}
+|\mathbf{T}|_{dB}=20\log_{10}|\mathbf{T}|
+\end{equation}
+
+
+\subsection{Filter A}
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.7\textwidth]{images/filterA.png}
+\caption{Circuit diagram of filter A (left) and experimental setup (right).}
+\label{fig:filtera}
+\end{figure}
+\noindent High pass filters are characterised by their ability to allow high frequencies to pass through the filter while suppressing low frequencies. Filter A, shown in Fig. \ref{fig:filtera}, is a simple high-pass phase-advance filter, commonly used for inter-stage coupling where DC isolation is required. The voltage transfer function of filter A is given by the voltage division theorem:
+\begin{equation}
+\mathbf{T}_A=\frac{\mathbf{V}_{out}}{\mathbf{V}_{in}}=\frac{R}{R+1/(\mathrm{j}\omega C)}=\frac{1}{1-\mathrm{j}\omega_0/\omega},
+\end{equation}
+where
+\begin{equation}
+\omega_0=\frac{1}{RC}.
+\end{equation}
+
+
+%here only simulate, calculate various corner frequencies.
+
+\begin{enumerate}
+\item [(1)] Using the laboratory's RCL meter, measure the values of the components contained on the circuit board. Calculate the corner frequency for the filter shown in Fig. \ref{fig:filtera}, using the measured capacitance and a resistance of $10k\Omega$. %22nF, 723Hz
+
+\item [(2)] Determine the resistance that would give a corner frequency of 5kHz. %1447Ohm
+For the circuit shown in Fig. \ref{fig:filtera}, use Matlab to plot a theoretical Bode amplitude plot (in dB) and Bode phase plot (in degrees) on the same figure, using a frequency range of 100Hz-1MHz. On a separate figure, use Matlab to construct a theoretical Nyquist plot from your data.
+
+\item [(3)] Connect up the circuit shown in Fig. \ref{fig:filtera}, setting the variable resistor to have the value $R$ calculated in (2). Using the Cleverscope in conjunction with Matlab, construct an experimental Bode plot and Nyquist plot for this circuit, and verify whether your circuit behaves as you would expect. You should plot both the experimental data and theoretical data on the same figure.
+
+\noindent\textbf{Note:} Instructions on how to use the Cleverscope to measure gain/phase are included in Appendix \ref{sec:cleverscope}.
+\end{enumerate}
+
+\noindent\textbf{Question 1.} Explain why the output voltage measured across the resistor is almost zero for very low frequencies.%impedance of capacitor dominates
+
+\vspace{3mm}
+\noindent\textbf{Question 2.} What sort of output waveform ($\mathbf{V}_{out}$) would you expect to see on an oscilloscope from this filter when using a 1kHz square wave as your input waveform ($\mathbf{V}_{in}$)?
+\subsection{Filter B}
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.7\textwidth]{images/filterB.png}
+\caption{Circuit diagram of filter B (left). Construction of Nyquist plot for $\mathbf{T}_B$ from $\mathbf{T}_A$.}
+\label{fig:lowpass}
+\end{figure}
+\noindent The circuit in Fig. \ref{fig:lowpass} is a simple low-pass phase-delay filter used to remove unwanted high-frequency signals. The voltage transfer function for Filter B is given by:
+\begin{equation}
+\mathbf{T}_B =\frac{\mathbf{V}_{out}}{\mathbf{V}_{in}}=\frac{1/(j\omega C)}{1/(\mathrm{j}\omega C) + R}=\frac{1}{1+\mathrm{j}\omega/\omega_0}.
+\end{equation}
+This can also be derived from the voltage transfer function of Filter A as follows:
+\begin{equation}
+\mathbf{V}_{in}
+=\mathbf{V}_C+\mathbf{V}_R,\,\,
+\mathrm{therefore}\,\,
+\mathbf{T}_B =\frac{\mathbf{V}_C}{\mathbf{V}_{in}}
+=\frac{\mathbf{V}_{in}-\mathbf{V}_R}{\mathbf{V}_{in}}
+=1-\frac{\mathbf{V}_R}{\mathbf{V}_{in}}
+=1-\mathbf{T}_A.
+\end{equation}
+%simulate the filter, then wire it up and experimentally verify your results.
+\begin{enumerate}
+\item [(4)] Use Matlab to construct a theoretical Bode plot and a Nyquist plot of the circuit shown in Fig. \ref{fig:lowpass} using the values of the components calculated in (3).
+\item [(5)] As the voltage transfer function $\mathbf{T}_B$ can be derived from the voltage transfer function for filter A, use your results from (4) to construct an experimental Bode plot and a Nyquist plot, and verify that they behave as you would expect.
+
+\noindent{\textbf{Note:}} When constructing the Nyquist plot, in order to get the amplitude vector $\mathbf{T}_B$, we add $-\mathbf{T}_A$ to $\mathbf{1}$ vectorially (see Fig. \ref{fig:lowpass}). This vector addition is equivalent to addition of complex numbers.
+\end{enumerate}
+\section{LC filters}
+LC filters have different characteristics to those of RC filters, due to the inclusion of an inductor in the circuit. These filters are able to act as an electrical resonator, storing energy oscillating at the circuit's resonant frequency. These resonant properties can be used to select certain frequencies out of a host of frequencies, making them useful for applications such as tuning radio transmitters and receivers. Theoretical LC filters are unachievable in the real world, as the capacitor and inductor combination will always possess some resistance, and the output signal will be damped even at resonance.
+
+For LC filters, an important concept is the \textbf{resonant frequency} of the filter. This occurs at $\omega_0=1/\sqrt{LC}$, or $f_0=1/(2\pi\sqrt{LC})$, and occurs when the inductive and capacitive reactances are equal in magnitude.
+
+The \textbf{Q factor} (or quality factor) determines how damped an oscillator is, and can be applied to LC filters due to internal resistance of the inductor and capacitor combination. A circuit having a low Q factor (Q$<1/2$) is said to be overdamped, and will not oscillate. A circuit with a high Q factor (Q$>1/2$) is said to be underdamped and will oscillate with a decay of the amplitude of the signal. When Q$=1/2$ the circuit is said to be critically damped.
+\subsection{Filter C}
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.7\textwidth]{images/filterC.png}
+\caption{Circuit diagram for filter C (left) and experimental setup (right).}
+\label{fig:lc1}
+\end{figure}
+The circuit shown in Fig. \ref{fig:lc1} shows a real LC circuit, with the resistance $R_p$ representing the resistance from the inductor and capacitor in parallel. The voltage transfer function for this circuit is given by:
+\begin{equation}
+\mathbf{T}_C=\frac{\mathbf{V}_{out}}{\mathbf{V}_{in}}=\frac{R_2}{R_2+z_p},
+\end{equation}
+where
+\begin{equation}
+z_p=R_p\|\mathrm{j}\omega L\|\frac{1}{\mathrm{j}\omega C}=\frac{R_p}{1+\mathrm{j}R_p\left(\omega C - \frac{1}{\omega L}\right)}.
+\end{equation}
+It is clear that $|\mathbf{T}_C|$ is a minimum when $|z_p|$ is a maximum. This will occur at the resonant frequency, %where $\omega=\omega_0=1/\sqrt{LC}$, i.e.\ at the frequency
+$\omega_0=1/\sqrt{LC}$.
+
+We can define $Q_p$ as the Q factor of the parallel inductor-capacitor combination, which gives a measure of how damped the system is. $Q_p$ is given by
+\begin{equation}
+Q_p=\frac{R_p}{\omega_0 L}=\omega_0 R_p C.
+\end{equation}
+
+The Q factor of filter C (different from $Q_p$) can then be defined as
+\begin{equation}
+Q_C=Q_p\sqrt{1-2|\mathbf{T}_{Cmin}|^2},
+\end{equation}
+where $|\mathbf{T}_{Cmin}|$ is the minimum value of $|\mathbf{T}_C|$.
+
+\begin{enumerate}
+\item[(6)] The resistance $R_p$ of filter C (see Fig. \ref{fig:lc1}) is the parallel loss resistance of the inductor (the capacitor has negligible loss resistance).
+Set $R_2$ to have a value of $300\Omega$ and use the Cleverscope to obtain a Bode plot for the filter.
+
+\item[(7)] Determine the frequencies $f_{min}$ and $f_{max}$ corresponding to the greatest positive and negative phase shifts between the input and output signals. %approx 2.6kHz and 42kHz
+
+\item[(8)] Use this plot to find the value of $R_p$, and hence determine $Q_p$. Find the value of $Q_C$, and interpret it in relation to the damping of the circuit.
+
+\item[(9)] Using your knowledge of the resistances in this circuit, obtain a theoretical Bode plot for this filter with Matlab. Confirm that it agrees with what you have found experimentally.
+
+\item[(10)] Create a Nyquist plot containing both theoretical and experimental data, and see whether the two agree.
+\end{enumerate}
+
+
+\subsection{Filter D}
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.8\textwidth]{images/filterD.png}
+\caption{Circuit diagram for filter D (left) and experimental setup (right).}
+\label{fig:lc2}
+\end{figure}
+In the circuit of Filter D (see Fig. \ref{fig:lc2}), $R_s$ represents the power loss resistance of the inductor-capacitor series combination. The voltage transfer function of Filter D is given by:
+\begin{equation}
+\mathbf{T}_D=\frac{\mathbf{V}_{out}}{\mathbf{V}_{in}}=\frac{R_1}{R_1+z_s},
+\label{eq:D1}
+\end{equation}
+where
+\begin{equation}
+z_s=R_s\left[1+\mathrm{j}\left(\frac{\omega L}{R_s}-\frac{1}{\omega R_s C}\right)\right].
+\label{eq:D2}
+\end{equation}
+From equation \ref{eq:D1}, we can see that $\mathbf{T}_D$ is a maximum when $z_s$ is a minimum, and equation \ref{eq:D2} shows us that this occurs at the resonant frequency, when $\omega=\omega_0 =1/\sqrt{LC}$. If we define $Q_s$ to be the quality factor of the series inductor-capacitor combination, then by definition
+\begin{equation}
+Q_s =\frac{\omega_0 L}{R_s}=\frac{1}{\omega_0 R_s C}.
+\end{equation}
+The Q factor of filter D is given by:
+\begin{equation}
+Q_D=\frac{\omega_0 L}{R_1 + R_s}=\frac{1}{\omega_0(R_1+R_s)C}=Q_s|\mathbf{T}_{Dmin}|.
+\end{equation}
+
+\begin{enumerate}
+\item[(11)] Use the Cleverscope to obtain an experimental Bode plot for the circuit shown in Fig. \ref{fig:lc2}.
+
+\item[(12)] Find $R_s$ and hence determine the value of $Q_s$. Find the value of $Q_D$ and interpret this in relation to how damped the circuit is.
+
+\item[(13)] Use Matlab to construct a theoretical Bode plot and a Nyquist plot for this circuit, using your experimental values for the circuit components. Check whether these agree with the experimental plots.
+
+\end{enumerate}
+\cleardoublepage
+\appendix
+\section{Using the Cleverscope to construct a Bode plot.}
+\label{sec:cleverscope}
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\textwidth]{images/cleverscope.png}
+\caption{The Cleverscope's software interface, showing a Bode plot of a low pass filter.}
+\label{fig:clever}
+\end{figure}
+\noindent The Cleverscope combines various devices, such as an oscilloscope, a signal generator and a spectrum analyser, and allows them to be accessed from a software interface via USB or ethernet connection to a PC. This makes the Cleverscope ideal for constructing Bode plots for the filters in this experiment as the signal generator can be swept through a range of frequencies, and both the gain and the phase difference of the output can be measured and plotted.
+
+In order to construct a Bode plot, ensure that the Cleverscope is connected to the PC, and launch the software interface. The following steps can be used to set up the device, however they are just a suggestion to help you get started. Different settings may be required, especially when studying particular points of interest, such as the behaviour of the LC filters near the resonant frequency.
+
+\begin{enumerate}
+\item Connect the signal generator (\textbf{SIG GEN}) from the back of the Cleverscope to the input of your filter. \textbf{CHAN A} will be used to measure the input signal of the filter, and should be connected in the same way as the signal generator. The output signal will be measured by \textbf{CHAN B}, and should be connected appropriately.
+
+\item Ensure that all the windows that you wish to use are visible. The necessary windows are shown in Fig. \ref{fig:clever}, and can be accessed from the \textbf{View} menu.
+
+\item On the \textbf{Cleverscope Control Panel}, set \textbf{ACQUIRE} to \textit{Auto}. When the Cleverscope is automatically acquiring data, the status indicators will blink. If this is not the case, then you will have to reselect \textit{Auto} to ensure that the data acquisition process works as expected.
+
+\item Ensure that both channels \textbf{A} and \textbf{B} are enabled, and are set to \textbf{AC} coupling (as opposed to \textbf{DC} coupling).
+
+\item Determine the frequency range that you wish to use, in our case 100kHz should be sufficient. In the \textbf{Spectrum Display} window, select the upper number on the \textbf{Freq (MHz)} axis, and type `0.1' over it to change the range of the plot. The lower limit and the vertical axis can also be changed in this way.
+
+\item Set the \textbf{Frequency Span} to 200kHz, and choose an appropriate value for the \textbf{Frequency Resolution}. Lower values will allow more detail to be present in your plot, however it will also take longer for the sweep process to complete. A value of 195Hz is a good place to start. Press the red button labelled \textbf{`set chan A peak to 0dB'} (fourth button from the right at the top of the \textbf{Spectrum Display} window) to ensure that your gain measurements are correct.
+
+\item Now we will set up the \textbf{Signal Generator} (right window in Fig. \ref{fig:clever}) to sweep through the desired frequencies. It is best to start sweeping at the frequency resolution, so set the \textbf{Base Frequency} to the value chosen in the previous step, in our case 195Hz. Ensure that the frequency step (\textbf{Freq Step}) is also set to this value in order to maintain amplitude accuracy. Set the frequency range (\textbf{Freq Range}) to be 100kHz.
+
+\noindent\textbf{Note:} You may also like to have a logarithmic sweep, which will speed up the sweeping process at higher frequencies. This can be enabled by selecting \textbf{Log sweep}.
+
+\item Ensure that the \textbf{Sweep Method} is set to \textit{Sweep synchronous}, and that the \textbf{Sweep Action} is set to \textit{Sweep up once}. The amplitude of the signal generator should be set to 2V, with a \textit{sine} waveform.
+
+\item Now we must ensure that the \textbf{Scope Display} (bottom window in Fig. \ref{fig:clever}) is displaying the correct amplitude range. Adjust the voltage range of the oscilloscope to ensure that there is no clipping, as this will distort your results. This can be done using the two buttons containing pictures of a large and small sine wave. The red buttons will adjust the amplitude range for Chan A, and the blue buttons will adjust the amplitude for Chan B.
+
+\item Rather than viewing both the input and output signals, we wish to view the gain and the phase relationships. To allow this, select \textbf{Spectrum} from the \textbf{Settings} menu, and set the \textbf{Transform Type} to \textit{Gain/Phase}. The axes on the plot contained in the Spectrum Display window can be adjusted to more appropriate values by selecting their values and typing over them. As we wish to have a logarithmic frequency axis, select \textit{Display spectrum log frequency} from the \textbf{Settings} menu.
+
+\item Rather than just displaying the gain and phase of one frequency, we wish to build a picture of the whole sweep. To do this, we will use peak averaging. Select \textbf{Averaging} from the \textbf{Settings} menu, and ensure that \textbf{Weighting mode} is set to \textit{Peak}. Turn on \textbf{Averaging} using the button on the Cleverscope Control Panel (left window in Fig. \ref{fig:clever}).
+
+\item The process can then begin by pressing \textbf{Start Sweep} on the Signal Generator Control Panel. Ensure that \textbf{ACQUIRE} is set to \textit{Auto}, and that the Cleverscope is automatically acquiring data.
+
+\end{enumerate}
+Once the Bode plot has been established, the data can be exported to a text format by choosing \textbf{Save as Text...} from the \textbf{File} menu. This file can then be imported into Matlab using the command:
+\begin{verbatim}
+s=importdata('filename.txt','\t',9);
+\end{verbatim}
+This will store the numerical data from a file called `filename.txt' in an array named `s.data'. This can then be used to form Bode plots and Nyquist plots.
+
+\vspace{3mm}
+\noindent\textbf{Note:} The video tutorial that this method to measure gain and phase difference is based on can be found at http://youtu.be/xsLCnTb7nqY
+
+\vspace{3mm}
+Revised 15/02/2013 Samuel Ruddell, SGM
+
+
+\end{document}
+
+
